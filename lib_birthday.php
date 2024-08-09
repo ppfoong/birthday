@@ -16,7 +16,7 @@
 //		Note: Set $lang to 1 for English, 2 for Simplified Chinese, 3 for Traditional Chinese
 //		Sample usage: echo getZodiac(8,31,1);
 //
-// function getAnimal($year, $month, $day, $lang=1)
+// function getAnimal($year, $month, $day, $lang)
 //		Note: Set $lang to 1 for English, 2 for Simplified Chinese, 3 for Traditional Chinese
 //		Note: Year range from 1900 to 2139
 //		Sample usage: echo getAnimal(2000,8,31,1);
@@ -28,7 +28,7 @@
 //		Sample usage: print_r(getAge(2000,8,31,1));
 //		Sample usage: echo getAge(2000,8,31,2);
 //
-// function getDays2Bday($month, $day, $opt=0)
+// function getDays2Bday($month, $day, $opt)
 //		Note: Set $opt to 0 to count days to next birthday, 1 to count days from last birthday
 //		Sample usage: echo getDays2Bday(8,8);
 //
