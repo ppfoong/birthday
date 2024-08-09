@@ -88,7 +88,6 @@ function getZodiac($month, $day, $lang=1) {
 		 ['摩羯座','水瓶座','雙魚座','牡羊座','金牛座','雙子座','巨蟹座','獅子座','處女座','天秤座','天蝎座','射手座','魔羯座']];
 
 	$target = $month*100 + $day;
-
 	$zodiac = findIndex($target, $arr, $month-1);
 	if ($zodiac == -1) {
 		throw new Exception(__FUNCTION__.'(): Invalid date.');
