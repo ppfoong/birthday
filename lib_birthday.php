@@ -3,8 +3,9 @@
 // 1. Getting the Zodiac sign (星座) of a date
 // 2. Getting the symbolic animal (生肖) of a date
 // 3. Calculating the age (年龄)
-// 4. Calculating no. of days to the next birthday
-// 5. Calculating no. of days from the last birthday
+// 4. Calculating no. of days since born
+// 5. Calculating no. of days to the next birthday
+// 6. Calculating no. of days from the last birthday
 //
 // Author: P.P. Foong (https://www.linkedin.com/in/ppfoong/)
 // Repository: https://github.com/ppfoong/lib_birthday
@@ -25,6 +26,7 @@
 //		Note: Returned year will be negative for birthday in the future
 //		Sample usage: echo getAge(2000,8,31);
 //		Sample usage: print_r(getAge(2000,8,31,1));
+//		Sample usage: echo getAge(2000,8,31,2);
 //
 // function getDays2Bday($month, $day, $opt=0)
 //		Note: Set $opt to 0 to count days to next birthday, 1 to count days from last birthday
