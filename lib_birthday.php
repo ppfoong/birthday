@@ -98,7 +98,7 @@ function getZodiac($month, $day, $lang=1) {
 
 function getAnimal($year, $month, $day, $lang=1) {
 // $lang selections: 1 = English; 2 = Simplified Chinese; 3 = Traditional Chinese
-	if (($lang < 1) || ($lang > 3)) {	// hardcode 3 for count($constellation);
+	if (($lang < 1) || ($lang > 3)) {	// hardcode 3 for count($animal);
 		throw new Exception(__FUNCTION__.'(): Undefined language.');
 	}
 	$arr = [131, 219, 208, 129, 216, 204, 125, 213, 202, 122, 210, 130, 218, 206, 126, 214, 204, 123, 211, 201,
