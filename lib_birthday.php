@@ -16,7 +16,7 @@
 //		Note: Set $lang to 1 for English, 2 for Simplified Chinese, 3 for Traditional Chinese
 //		Sample usage: echo getZodiac(8,31,1);
 //
-// function getAnimal ($year, $month, $day, $lang=1)
+// function getAnimal($year, $month, $day, $lang=1)
 //		Note: Set $lang to 1 for English, 2 for Simplified Chinese, 3 for Traditional Chinese
 //		Note: Year range from 1900 to 2139
 //		Sample usage: echo getAnimal(2000,8,31,1);
@@ -96,7 +96,11 @@ function getZodiac($month, $day, $lang=1) {
 	return $constellation[$lang-1][$zodiac];
 }
 
-function getAnimal ($year, $month, $day, $lang=1) {
+function getAnimal($year, $month, $day, $lang=1) {
+// $lang selections: 1 = English; 2 = Simplified Chinese; 3 = Traditional Chinese
+	if (($lang < 1) || ($lang > 3)) {	// hardcode 3 for count($constellation);
+		throw new Exception(__FUNCTION__.'(): Undefined language.');
+	}
 	$arr = [131, 219, 208, 129, 216, 204, 125, 213, 202, 122, 210, 130, 218, 206, 126, 214, 204, 123, 211, 201,
 			220, 208, 128, 216, 205, 124, 213, 202, 123, 210, 130, 217, 206, 126, 214, 204, 124, 211, 131, 219,
 			208, 127, 215, 205, 125, 213, 202, 122, 210, 129, 217, 206, 127, 214, 203, 124, 212, 131, 218, 208,
