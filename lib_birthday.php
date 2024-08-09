@@ -79,7 +79,8 @@ function countDays($year1, $month1, $day1, $year2, $month2, $day2) {
 function getZodiac($month, $day, $lang=1) {
 // $lang selections: 1 = English; 2 = Simplified Chinese; 3 = Traditional Chinese
 	if (($lang < 1) || ($lang > 3)) {	// hardcode 3 for count($constellation);
-		throw new Exception(__FUNCTION__.'(): Undefined language.');
+		// Undefined language
+		return -1;
 	}
 	$arr = [101, 120, 219, 321, 420, 521, 621, 723, 823, 923, 1023, 1122, 1222, 1232];
 	$constellation = 
@@ -98,7 +99,8 @@ function getZodiac($month, $day, $lang=1) {
 function getAnimal($year, $month, $day, $lang=1) {
 // $lang selections: 1 = English; 2 = Simplified Chinese; 3 = Traditional Chinese
 	if (($lang < 1) || ($lang > 3)) {	// hardcode 3 for count($animal);
-		throw new Exception(__FUNCTION__.'(): Undefined language.');
+		// Undefined language
+		return -1;
 	}
 	$arr = [131, 219, 208, 129, 216, 204, 125, 213, 202, 122, 210, 130, 218, 206, 126, 214, 204, 123, 211, 201,
 			220, 208, 128, 216, 205, 124, 213, 202, 123, 210, 130, 217, 206, 126, 214, 204, 124, 211, 131, 219,
@@ -151,8 +153,10 @@ function getAge($year, $month, $day, $opt=0) {
 		case 1:
 			return array($diff->format("%r%y"),$diff->format("%r%m"),$diff->format("%r%d"));
 		case 2:
-		default:
 			return $diff->format("%r%a");
+		default:
+			// Opt is out of range
+			return -1;
 	}
 }
 
