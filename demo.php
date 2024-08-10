@@ -42,7 +42,7 @@
 			echo getZodiac($month,$day,2);
 			echo "<br><br>Symbolic animal: ";
 			echo getAnimal($year,$month,$day)." ";
-			echo getAnimal($year,$month,$day,2);
+			echo getAnimal($year,$month,$day,4);
 			
 			echo "<br><br>Age: ";
 			echo getAge($year,$month,$day);

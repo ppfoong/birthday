@@ -10,16 +10,17 @@
 // Author: P.P. Foong (https://www.linkedin.com/in/ppfoong/)
 // Repository: https://github.com/ppfoong/lib_birthday
 // License: The MIT License
-// Version 1.1 (2024-08-10)
+// Version 1.2 (2024-08-10)
 //
 // function getZodiac($month, $day, $lang)
 //		Note: Set $lang to 1 for English, 2 for Simplified Chinese, 3 for Traditional Chinese,
-//						   4 for Simplified Chinese (alternative naming), 5 for Traditional Chinese (alternative naming)
+//							4 for Simplified Chinese (alternative naming), 5 for Traditional Chinese (alternative naming)
 //		Sample usage: echo getZodiac(8,31,1);
 //		Sample usage: echo getZodiac(8,31);			// for English
 //
 // function getAnimal($year, $month, $day, $lang)
-//		Note: Set $lang to 1 for English, 2 for Simplified Chinese, 3 for Traditional Chinese
+//		Note: Set $lang to 1 for English, 2 for Simplified Chinese, 3 for Traditional Chinese, 
+//							4 for Simplified Chinese with Earthly Branch (地支), 5 for Traditional Chinese with Earthly Branch (地支)
 //		Note: Year range from 1900 to 2139
 //		Sample usage: echo getAnimal(2000,8,31,1);
 //		Sample usage: echo getAnimal(2000,8,31);	// for English
@@ -82,7 +83,7 @@ function countDays($year1, $month1, $day1, $year2, $month2, $day2) {
 }
 
 function getZodiac($month, $day, $lang=1) {
-// $lang selections: 1 = English; 2 = Simplified Chinese; 3 = Traditional Chinese 4 = Simplified Chinese (alternative naming) 5 = Traditional Chinese (alternative naming)
+// $lang selections: 1 = English; 2 = Simplified Chinese; 3 = Traditional Chinese; 4 = Simplified Chinese (alternative naming); 5 = Traditional Chinese (alternative naming)
 	if (($lang < 1) || ($lang > 5)) {	// hardcode 5 for count($constellation);
 		// Undefined language, set it to default (English)
 		$lang=1;
@@ -104,8 +105,8 @@ function getZodiac($month, $day, $lang=1) {
 }
 
 function getAnimal($year, $month, $day, $lang=1) {
-// $lang selections: 1 = English; 2 = Simplified Chinese; 3 = Traditional Chinese
-	if (($lang < 1) || ($lang > 3)) {	// hardcode 3 for count($animal);
+// $lang selections: 1 = English; 2 = Simplified Chinese; 3 = Traditional Chinese; 4 = Simplified Chinese with Earthly Branch; 5 = Traditional Chinese with Earthly Branch
+	if (($lang < 1) || ($lang > 5)) {	// hardcode 5 for count($animal);
 		// Undefined language, set it to default (English)
 		$lang=1;
 	}
@@ -124,7 +125,10 @@ function getAnimal($year, $month, $day, $lang=1) {
 	$animal =
 		[['Rat','Ox','Tiger','Hare','Dragon','Snake','Horse','Sheep','Monkey','Rooster','Dog','Boar'],
 		 ['鼠','牛','虎','兔','龙','蛇','马','羊','猴','鸡','狗','猪'],
-		 ['鼠','牛','虎','兔','龍','蛇','馬','羊','猴','雞','狗','猪']];
+		 ['鼠','牛','虎','兔','龍','蛇','馬','羊','猴','雞','狗','猪'],
+		 ['子鼠','丑牛','寅虎','卯兔','辰龙','巳蛇','午马','未羊','申猴','酉鸡','戌狗','亥猪'],
+		 ['子鼠','丑牛','寅虎','卯兔','辰龙','巳蛇','午马','未羊','申猴','酉鸡','戌狗','亥猪']];
+
 	if (!checkdate($month,$day,$year)) {
 		throw new Exception(__FUNCTION__.'(): Invalid date.');
 	}
