@@ -15,29 +15,33 @@
 // function getZodiac($month, $day, $lang)
 //		Note: Set $lang to 1 for English, 2 for Simplified Chinese, 3 for Traditional Chinese
 //		Sample usage: echo getZodiac(8,31,1);
+//		Sample usage: echo getZodiac(8,31);			// for English
 //
 // function getAnimal($year, $month, $day, $lang)
 //		Note: Set $lang to 1 for English, 2 for Simplified Chinese, 3 for Traditional Chinese
 //		Note: Year range from 1900 to 2139
 //		Sample usage: echo getAnimal(2000,8,31,1);
+//		Sample usage: echo getAnimal(2000,8,31);	// for English
 //
 // function getAge($year, $month, $day, $opt)
 //		Note: Set $opt to 0 for years only, 1 to include years, months and days, 2 for number of days
 //		Note: Returned year will be negative for birthday in the future
-//		Sample usage: echo getAge(2000,8,31);
+//		Sample usage: echo getAge(2000,8,31,0);
 //		Sample usage: print_r(getAge(2000,8,31,1));
 //		Sample usage: echo getAge(2000,8,31,2);
 //
 // function getDays2Bday($month, $day, $opt)
 //		Note: Set $opt to 0 to count days to next birthday, 1 to count days from last birthday
-//		Sample usage: echo getDays2Bday(8,8);
+//		Sample usage: echo getDays2Bday(8,31,0);
 //
 // function countDays($year1, $month1, $day1, $year2, $month2, $day2)
-//		Note: The 1st 3 variables are for start date, and last 3 variables are for end date
+//		Note: The 1st 3 parameters are for start date, and next 3 parameters are for end date
 //		Sample usage: countDays(2000,8,31,2024,8,8);
 //
-
+// Note: In all the above functions, the $lang or $opt argument will default to the 1st selection if not defined when the function is called.
+//
 // Special note: in PHP, avoid declaring function inside function. That will cause "redeclaration error" when the parent function is called more than once.
+//
 
 // This function is used by getZodiac()
 function findIndex($target, $arr, $left=0) {
