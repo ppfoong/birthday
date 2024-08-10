@@ -124,8 +124,7 @@ function getAnimal($year, $month, $day, $lang=1) {
 	if ($year >= 1900 && $year < 2140) {
 		$year -= 1900;
 		$target = $month*100 + $day;
-		$cny = $arr[$year];
-		if ($target >= $cny) {
+		if ($target >= $arr[$year]) {
 			$index = $year % 12;
 		} else {
 			$index = ($year==0)?11:($year-1) % 12;
