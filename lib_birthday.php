@@ -10,10 +10,11 @@
 // Author: P.P. Foong (https://www.linkedin.com/in/ppfoong/)
 // Repository: https://github.com/ppfoong/lib_birthday
 // License: The MIT License
-// Version 1.0 (2024-08-08)
+// Version 1.1 (2024-08-10)
 //
 // function getZodiac($month, $day, $lang)
-//		Note: Set $lang to 1 for English, 2 for Simplified Chinese, 3 for Traditional Chinese
+//		Note: Set $lang to 1 for English, 2 for Simplified Chinese, 3 for Traditional Chinese,
+//						   4 for Simplified Chinese (alternative naming), 5 for Traditional Chinese (alternative naming)
 //		Sample usage: echo getZodiac(8,31,1);
 //		Sample usage: echo getZodiac(8,31);			// for English
 //
@@ -81,8 +82,8 @@ function countDays($year1, $month1, $day1, $year2, $month2, $day2) {
 }
 
 function getZodiac($month, $day, $lang=1) {
-// $lang selections: 1 = English; 2 = Simplified Chinese; 3 = Traditional Chinese
-	if (($lang < 1) || ($lang > 3)) {	// hardcode 3 for count($constellation);
+// $lang selections: 1 = English; 2 = Simplified Chinese; 3 = Traditional Chinese 4 = Simplified Chinese (alternative naming) 5 = Traditional Chinese (alternative naming)
+	if (($lang < 1) || ($lang > 5)) {	// hardcode 5 for count($constellation);
 		// Undefined language, set it to default (English)
 		$lang=1;
 	}
@@ -90,7 +91,9 @@ function getZodiac($month, $day, $lang=1) {
 	$constellation = 
 		[['Capricorn','Aquarius','Pisces','Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn'],
 		 ['摩羯座','水瓶座','双鱼座','牡羊座','金牛座','双子座','巨蟹座','狮子座','处女座','天枰座','天蝎座','射手座','魔羯座'],
-		 ['摩羯座','水瓶座','雙魚座','牡羊座','金牛座','雙子座','巨蟹座','獅子座','處女座','天秤座','天蝎座','射手座','魔羯座']];
+		 ['摩羯座','水瓶座','雙魚座','牡羊座','金牛座','雙子座','巨蟹座','獅子座','處女座','天秤座','天蝎座','射手座','魔羯座'],
+		 ['山羊座','水瓶座','双鱼座','白羊座','金牛座','双子座','巨蟹座','狮子座','处女座','天枰座','天蝎座','人马座','山羊座'],
+		 ['山羊座','水瓶座','雙魚座','白羊座','金牛座','雙子座','巨蟹座','獅子座','處女座','天秤座','天蝎座','人馬座','山羊座']];
 
 	$target = $month*100 + $day;
 	$zodiac = findIndex($target, $arr, $month-1);

@@ -20,17 +20,21 @@
 	
 	if (!empty($_GET)) {
 		if (isset($_GET['birthday'])) {
-			$date = date_parse($_GET['birthday']);
-			if($date['error_count'] > 0) {
-				throw new Exception('Invalid date.');
-			}
-			$year = $date['year'];
-			$month = $date['month'];
-			$day = $date['day'];
 			$today = date_create('now');
 			$thisYear = date_format($today,'Y');
 			$thisMonth = date_format($today,'m');
 			$thisDay = date_format($today,'d');
+			$date = date_parse($_GET['birthday']);
+			if($date['error_count'] > 0) {
+				// Invalid date. Default it to today.
+				$year = $thisYear;
+				$month = $thisMonth;
+				$day = $thisDay;
+			} else {
+				$year = $date['year'];
+				$month = $date['month'];
+				$day = $date['day'];
+			}
 			echo "<br>Today: ".$thisYear."-".$thisMonth."-".$thisDay;
 			echo "<br>Birthday: ".$year."-".$month."-".$day;
 			echo "<br><br>Zodiac sign: ";
