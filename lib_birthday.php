@@ -3,14 +3,17 @@
 // 1. Getting the Zodiac sign (星座) of a date
 // 2. Getting the symbolic animal (生肖) of a date
 // 3. Calculating the age (年龄)
-// 4. Calculating no. of days since born
-// 5. Calculating no. of days to the next birthday
-// 6. Calculating no. of days from the last birthday
+// 4. Calculating the years matching the sybolic animal within a range of years (or ages)
+// 5. Calculating the year of birth from actual age, where age increment is on birthday
+// 6. Calculating no. of days since born
+// 7. Calculating no. of days to the next birthday
+// 8. Calculating no. of days from the last birthday
+// 9. Check whether this year's birthday has already passed
 //
 // Author: P.P. Foong (https://www.linkedin.com/in/ppfoong/)
 // Repository: https://github.com/ppfoong/lib_birthday
 // License: The MIT License
-// Version 1.2 (2024-08-10)
+// Version 2.0 (2024-08-11)
 //
 // function getZodiac($month, $day, $lang)
 //		Note: Set $lang to 1 for English, 2 for Simplified Chinese, 3 for Traditional Chinese,
@@ -32,13 +35,35 @@
 //		Sample usage: print_r(getAge(2000,8,31,1));
 //		Sample usage: echo getAge(2000,8,31,2);
 //
+// function getYearsByAge($age1, $age2, $month, $day)
+//		Note: Return an array containing the start year and end year that matches with the age range
+//		Note: $month and $day are optional. Default to 1/1 if not defined.
+//		Sample usage: print_r(getYearsbyAge(18,22,8,31));
+//
+// function getAnimalYearsByRange($animalIndex, $year1, $year2)
+//		Note: Return an array containing the years that match with the symbolic animal between $year1 and $year2
+//		Sample usage: print_r(getAnimalYearsByRange(4,2000,2020));
+//
+// function getAnimalYearsByAge($animalIndex, $age1, $age2, $month, $day)
+//		Note: Return an array containing the years that match with the symbolic animal within the age range. Age is determined by the birthday date.
+//		Note: $month and $day are optional. Default to 1/1 if not defined.
+//		Sample usage: print_r(getYearsbyAge(4,18,22,8,31));
+//
 // function getDays2Bday($month, $day, $opt)
 //		Note: Set $opt to 0 to count days to next birthday, 1 to count days from last birthday
 //		Sample usage: echo getDays2Bday(8,31,0);
 //
 // function countDays($year1, $month1, $day1, $year2, $month2, $day2)
 //		Note: The 1st 3 parameters are for start date, and next 3 parameters are for end date
-//		Sample usage: countDays(2000,8,31,2024,8,8);
+//		Sample usage: echo countDays(2000,8,31,2024,8,8);
+//
+// function todayYMD()
+//		Note: Return today's date in an array of Year, Month, Day
+//		Sample usage: print_r(todayYMD());
+//
+// function inThePast($month, $day)
+//		Note: Return TRUE if today has passed the date
+//		Sample usage: echo inThePast(8,31);
 //
 // Note: In all the above functions, the $lang or $opt argument will default to the 1st selection if not defined when the function is called.
 //
@@ -80,6 +105,27 @@ function countDays($year1, $month1, $day1, $year2, $month2, $day2) {
 	$day1 = date_create($year1."-".$month1."-".$day1);
 	$day2 = date_create($year2."-".$month2."-".$day2);
 	return date_diff($day1,$day2)->format("%r%a");
+}
+
+// This function is used by inThePast(), getYearbyAge() and getDays2Bday()
+function todayYMD() {
+	$today = date_create('now');
+	return array(date_format($today,'Y'), date_format($today,'m'), date_format($today,'d'));
+}
+
+// This function is used by getDays2Bday()
+function inThePast($month, $day) {
+	$today = todayYMD();
+	$thisYear = $today[0];
+	$thisMonth = $today[1];
+	$thisDay = $today[2];
+	if (($thisMonth < $month) || (($thisMonth == $month)&&($thisDay <= $day))) {
+		// the date is in the future	
+		return FALSE;
+	} else {
+		// the date has passed today
+		return TRUE;
+	}
 }
 
 function getZodiac($month, $day, $lang=1) {
@@ -133,8 +179,7 @@ function getAnimal($year, $month, $day, $lang=1) {
 	}
 	if ($year >= 1900 && $year < 2140) {
 		$year -= 1900;
-		$target = $month*100 + $day;
-		if ($target >= $arr[$year]) {
+		if (($month > 2) || ($arr[$year] <= ($month*100 + $day))) {
 			$index = $year % 12;
 		} else {
 			$index = ($year==0)?11:($year-1) % 12;
@@ -169,19 +214,68 @@ function getAge($year, $month, $day, $opt=0) {
 	}
 }
 
+// This function is used by getYearFromAnimalByAge()
+function getYearsByAge($age1, $age2, $month=1, $day=1) {
+	$today = todayYMD();
+	$thisYear = $today[0];
+	$offset1 = $offset2 = 0;
+
+	if ($age1 < $age2) {
+		// swap them
+		$age1 ^= $age2 ^= $age1 ^= $age2;
+	}
+	if (!inthePast($month,$day-1)) {
+		if ($age1 > 0) {
+			$offset1 = 1;
+		}
+		if ($age2 > 0) {
+			$offset2 = 1;
+		}
+	}
+	$year1 = $thisYear - $age1 - $offset1;
+	$year2 = $thisYear - $age2 - $offset2;
+	return array($year1, $year2);
+}
+
+// This function is used by getAnimalYearsByAge()
+function getAnimalYearsByRange($animalIndex, $year1, $year2) {
+// $animalIndex range from 0 to 11, according to the sequence as listed in getAnimal()
+	if ($year1 > $year2) {
+		// swap them
+		$year1 ^= $year2 ^= $year1 ^= $year2;
+	}
+	for ($year = $year1; $year <= $year2; $year++) {
+		if (($year-1900) % 12 == $animalIndex) {
+			break;
+		}
+	}
+	$result = array();
+	for ($i = $year;$i <= $year2; $i+=12) {
+		array_push($result,$i);
+	}
+	return $result;
+}
+
+function getAnimalYearsByAge($animalIndex, $age1, $age2, $month=1, $day=1) {
+// $animalIndex range from 0 to 11, according to the sequence as listed in getAnimal()
+	$range = getYearsByAge($age1,$age2,$month,$day);
+
+	return getAnimalYearsByRange($animalIndex,$range[0],$range[1]);
+}
+
 function getDays2Bday($month, $day, $opt=0) {
 // $opt == 0: count days to next birthday
 // $opt == 1: count days from last birthday
-	$today = date_create('now');
-	$thisYear = date_format($today,'Y');
-	$thisMonth = date_format($today,'m');
-	$thisDay = date_format($today,'d');
-	if (($thisMonth < $month) || (($thisMonth == $month)&&($thisDay <= $day))) {
-		// this year's birthday not yet passed	
-		$year = ($opt==0)?$thisYear:$thisYear-1;	
-	} else {
+	$today = todayYMD();
+	$thisYear = $today[0];
+	$thisMonth = $today[1];
+	$thisDay = $today[2];
+	if (inthePast($month,$day)) {
 		// this year's birthday has passed
-		$year = ($opt==0)?$thisYear+1:$thisYear;	
+		$year = ($opt==0)?$thisYear+1:$thisYear;
+	} else {
+		// this year's birthday not yet passed
+		$year = ($opt==0)?$thisYear:$thisYear-1;
 	}
 	return countDays($thisYear,$thisMonth,$thisDay,$year,$month,$day);
 }

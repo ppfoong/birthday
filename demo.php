@@ -20,10 +20,10 @@
 	
 	if (!empty($_GET)) {
 		if (isset($_GET['birthday'])) {
-			$today = date_create('now');
-			$thisYear = date_format($today,'Y');
-			$thisMonth = date_format($today,'m');
-			$thisDay = date_format($today,'d');
+			$today = todayYMD();
+			$thisYear = $today[0];
+			$thisMonth = $today[1];
+			$thisDay = $today[2];
 			$date = date_parse($_GET['birthday']);
 			if($date['error_count'] > 0) {
 				// Invalid date. Default it to today.
