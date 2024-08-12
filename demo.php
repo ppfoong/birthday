@@ -43,11 +43,15 @@
 			if ($cny != -1) {
 				$mon = ($cny[0]==1)?"Jan ":"Feb ";
 				echo "<br>This year's Chinese New Year falls on: ".$mon.$cny[1];
+			} else {
+				echo "<br><i>Current year is out of Chinese New Year checking range.</i>";
 			}
 			$cny = getCNYday($year);
 			if ($cny != -1) {
 				$mon = ($cny[0]==1)?"Jan ":"Feb ";
 				echo "<br>Birth year's Chinese New Year falls on: ".$mon.$cny[1];
+			} else {
+				echo "<br><i>Birth year is out of Chinese New Year checking range.</i>";
 			}
 			echo "<br><br>Zodiac sign: ";
 			echo getZodiac($month,$day)." ";

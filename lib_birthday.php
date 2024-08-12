@@ -15,7 +15,7 @@
 // Author: P.P. Foong (https://www.linkedin.com/in/ppfoong/)
 // Repository: https://github.com/ppfoong/lib_birthday
 // License: The MIT License
-// Version 2.1 (2024-08-12)
+// Version 2.11 (2024-08-12)
 //
 // function getZodiac($month, $day, $lang)
 //		Note: Set $lang to 1 for English, 2 for Simplified Chinese, 3 for Traditional Chinese,
@@ -65,7 +65,7 @@
 //		Sample usage: print_r(todayYMD());
 //
 // function inThePast($month, $day)
-//		Note: Return TRUE if today has passed the date
+//		Note: Return TRUE if today has passed the date in this year
 //		Sample usage: echo inThePast(8,31);
 //
 // function passedCNY($index, $month, $day)
@@ -157,7 +157,7 @@ function getCNY($year) {
 			218, 207, 127, 215, 204, 123, 211, 201, 220, 208, 129, 216, 205, 125, 212, 202, 123, 210, 130, 218, 207, 126, 214, 203];
 	
 	$index = ($year>=1876)?$year-1876:$year;
-	if($index >= 288) {
+	if(($index < 0) || ($index >= 288)) {
 		// out of range
 		return -1;
 	}
@@ -213,6 +213,23 @@ function getZodiac($month, $day, $lang=1) {
 	return $constellation[$lang-1][$zodiac];
 }
 
+// This function is used by getAnimal() and getAnimalYearsByRange()
+function getAnimalIndex($year, $month, $day) {
+	if (!checkdate($month,$day,$year)) {
+		throw new Exception(__FUNCTION__.'(): Invalid date.');
+	}
+	$year -= 1900;
+	if (passedCNY($year,$month,$day)) {
+		$index = $year % 12;
+	} else {
+		$index = ($year+11) % 12;
+	}	
+	if ($index < 0) {
+		$index += 12;
+	}
+	return $index;
+}
+
 function getAnimal($year, $month, $day, $lang=1) {
 // $lang selections: 1 = English; 2 = Simplified Chinese; 3 = Traditional Chinese; 4 = Simplified Chinese with Earthly Branch; 5 = Traditional Chinese with Earthly Branch
 	if (($lang < 1) || ($lang > 5)) {	// hardcode 5 for count($animal);
@@ -225,21 +242,8 @@ function getAnimal($year, $month, $day, $lang=1) {
 				['子鼠','丑牛','寅虎','卯兔','辰龙','巳蛇','午马','未羊','申猴','酉鸡','戌狗','亥猪'],
 				['子鼠','丑牛','寅虎','卯兔','辰龍','巳蛇','午馬','未羊','申猴','酉雞','戌狗','亥猪']];
 
-	if (!checkdate($month,$day,$year)) {
-		throw new Exception(__FUNCTION__.'(): Invalid date.');
-	}
-	if ($year >= 1876 && $year < 2164) {
-		$year -= 1876;
-		if (passedCNY($year,$month,$day)) {
-			$index = $year % 12;
-		} else {
-			$index = ($year==0)?11:($year-1) % 12;
-		}
-		return $animal[$lang-1][$index];
-	} else {
-		// year is out of range
-		return -1;
-	}
+	$index = getAnimalIndex($year,$month,$day);
+	return $animal[$lang-1][$index];
 }
 
 function getAge($year, $month, $day, $opt=0) {
@@ -297,7 +301,7 @@ function getAnimalYearsByRange($animalIndex, $year1, $year2, $month=1, $day=1) {
 	}
 	$result = array();
 	for ($year = $year1; $year <= $year2; $year++) {
-		if (($year-1877) % 12 == $animalIndex) {
+		if (getAnimalIndex($year,$month,$day) == $animalIndex) {
 			if(passedCNY($year,$month,$day)) {
 				array_push($result,$year-1);
 			} else {
