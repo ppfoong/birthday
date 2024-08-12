@@ -10,10 +10,10 @@
 	<p><div style="text-align:center;">
 		<form action="" method="get">
 			Input age range for the search:<br>
-			<label for="age1">From (0-200):</label>
-			<input type="number" id="age1" name="age1" min="0" max="200" />
-			<label for="age2">To (0-200):</label>
-			<input type="number" id="age2" name="age2" min="0" max="200" />
+			<label for="age1">From (0-148):</label>
+			<input type="number" id="age1" name="age1" min="0" max="148" />
+			<label for="age2">To (0-148):</label>
+			<input type="number" id="age2" name="age2" min="0" max="148" />
 			<br><br>Birthday:<br>
 			<label for="b_month">Month:</label>
 			<input type="number" id="b_month" name="b_month" min="1" max="12" />
@@ -82,7 +82,7 @@
 			}
 		}
 		echo "<br><br>The information below is gotten from different function, and should have the same result as above.";
-		$results = getAnimalYearsByRange($animalIndex,$years[0],$years[1]);
+		$results = getAnimalYearsByRange($animalIndex,$years[0],$years[1],$b_month,$b_day);
 		echo "<br>".$animal[$animalIndex]. " year(s) between ".$years[0]." and ".$years[1].": ";
 		$total = count($results);
 		if ($total == 0) {

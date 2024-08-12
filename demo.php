@@ -37,6 +37,18 @@
 			}
 			echo "<br>Today: ".$thisYear."-".$thisMonth."-".$thisDay;
 			echo "<br>Birthday: ".$year."-".$month."-".$day;
+			$cnyState = passedCNY($year,$month,$day)?"after":"before";
+			echo " (".$cnyState." Chinese New Year)";
+			$cny = getCNYday($thisYear);
+			if ($cny != -1) {
+				$mon = ($cny[0]==1)?"Jan ":"Feb ";
+				echo "<br>This year's Chinese New Year falls on: ".$mon.$cny[1];
+			}
+			$cny = getCNYday($year);
+			if ($cny != -1) {
+				$mon = ($cny[0]==1)?"Jan ":"Feb ";
+				echo "<br>Birth year's Chinese New Year falls on: ".$mon.$cny[1];
+			}
 			echo "<br><br>Zodiac sign: ";
 			echo getZodiac($month,$day)." ";
 			echo getZodiac($month,$day,2);
