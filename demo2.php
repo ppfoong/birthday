@@ -61,6 +61,13 @@
 			$b_day = 1;
 		}
 		$animalIndex = isset($_GET['animal'])?(int)$_GET['animal']:0;
+		// handling out of range situation
+		if ($animalIndex < 0) {
+			$animalIndex += 12;
+		}
+		if ($animalIndex > 12) {
+			$animalIndex %= 12;
+		}
 		$today = todayYMD();
 		$thisYear = $today[0];
 		$thisMonth = $today[1];

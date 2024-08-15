@@ -26,7 +26,7 @@
 			$thisDay = $today[2];
 			$date = date_parse($_GET['birthday']);
 			if($date['error_count'] > 0) {
-				// Invalid date. Default it to today.
+				echo "<p style=\"color:red;\"><b><i>Error: Invalid date detected. Defaulting the birthday to today...</i></b></p>";
 				$year = $thisYear;
 				$month = $thisMonth;
 				$day = $thisDay;

@@ -83,6 +83,13 @@
 // Special note: in PHP, avoid declaring function inside function. That will cause "redeclaration error" when the parent function is called more than once.
 //
 
+// This function is used by getYearsByAge() and getAnimalYearsByRange()
+function swap(&$item1, &$item2) {
+    $tmp = $item1;
+    $item1 = $item2;
+    $item2 = $tmp;
+}
+
 // This function is used by getZodiac()
 function findIndex($target, $arr, $left=0) {
 	$max = count($arr)-2;
@@ -156,8 +163,8 @@ function getCNY($year) {
 			214, 202, 122, 210, 130, 217, 207, 127, 215, 203, 123, 211, 201, 219, 208, 129, 217, 205, 125, 213, 202, 122, 210, 130,
 			218, 207, 127, 215, 204, 123, 211, 201, 220, 208, 129, 216, 205, 125, 212, 202, 123, 210, 130, 218, 207, 126, 214, 203];
 	
-	$index = ($year>=1876)?$year-1876:$year;
-	if(($index < 0) || ($index >= 288)) {
+	$index = ($year>=1876)?$year-1876:$year;	// first year is 1876
+	if(($index < 0) || ($index >= 288)) {		// hardcode 288 for count($arr);
 		// out of range
 		return -1;
 	}
@@ -182,10 +189,8 @@ function passedCNY($index, $month=8, $day=8) {
 		return TRUE;
 	}
 	$cny = getCNY($index);
-	if ($cny == -1) {
-		// out of range, default to TRUE
-		return TRUE;
-	} else if ($cny <= ($month*100 + $day)) {
+	if ($cny <= ($month*100 + $day)) {
+		// this includes condition of $cny == -1 (out of range)
 		return TRUE;
 	}
 	return FALSE;
@@ -223,7 +228,7 @@ function getAnimalIndex($year, $month, $day) {
 		$index = $year % 12;
 	} else {
 		$index = ($year+11) % 12;
-	}	
+	}
 	if ($index < 0) {
 		$index += 12;
 	}
@@ -276,8 +281,7 @@ function getYearsByAge($age1, $age2, $month=1, $day=1) {
 	$offset1 = $offset2 = 0;
 
 	if ($age1 < $age2) {
-		// swap them
-		$age1 ^= $age2 ^= $age1 ^= $age2;
+		swap($age1,$age2);
 	}
 	if (!inthePast($month,$day-1)) {
 		if ($age1 > 0) {
@@ -296,8 +300,7 @@ function getYearsByAge($age1, $age2, $month=1, $day=1) {
 function getAnimalYearsByRange($animalIndex, $year1, $year2, $month=1, $day=1) {
 // $animalIndex range from 0 to 11, according to the sequence as listed in getAnimal()
 	if ($year1 > $year2) {
-		// swap them
-		$year1 ^= $year2 ^= $year1 ^= $year2;
+		swap($year1,$year2);
 	}
 	$result = array();
 	for ($year = $year1; $year <= $year2; $year++) {
@@ -315,7 +318,6 @@ function getAnimalYearsByRange($animalIndex, $year1, $year2, $month=1, $day=1) {
 function getAnimalYearsByAge($animalIndex, $age1, $age2, $month=1, $day=1) {
 // $animalIndex range from 0 to 11, according to the sequence as listed in getAnimal()
 	$range = getYearsByAge($age1,$age2,$month,$day);
-
 	return getAnimalYearsByRange($animalIndex,$range[0],$range[1],$month,$day);
 }
 
