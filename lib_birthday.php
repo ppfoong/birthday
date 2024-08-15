@@ -15,7 +15,7 @@
 // Author: P.P. Foong (https://www.linkedin.com/in/ppfoong/)
 // Repository: https://github.com/ppfoong/lib_birthday
 // License: The MIT License
-// Version 2.11 (2024-08-12)
+// Version 2.2 (2024-08-15)
 //
 // function getZodiac($month, $day, $lang)
 //		Note: Set $lang to 1 for English, 2 for Simplified Chinese, 3 for Traditional Chinese,
