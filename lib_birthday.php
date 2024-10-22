@@ -2,20 +2,21 @@
 // This is a PHP library containing functions related to birthday, such as:
 // 1. Getting the Zodiac sign (星座) of a date
 // 2. Getting the symbolic animal (生肖) of a date
-// 3. Calculating the age (年龄)
-// 4. Calculating the years matching the symbolic animal within a range of years (or ages)
-// 5. Calculating the year of birth from actual age, where age increment is on the birthday
-// 6. Calculating no. of days since born
-// 7. Calculating no. of days to the next birthday
-// 8. Calculating no. of days from the last birthday
-// 9. Check whether this year's birthday has already passed
-// 10. Check whether a date has passed Chinese New Year of the year
-// 11. Getting the Chinese New Year date of a year (range from 1876 to 2163)
+// 3. Getting the Life Path Number (生命灵数) of a date
+// 4. Calculating the age (年龄)
+// 5. Calculating the years matching the symbolic animal within a range of years (or ages)
+// 6. Calculating the year of birth from actual age, where age increment is on the birthday
+// 7. Calculating no. of days since born
+// 8. Calculating no. of days to the next birthday
+// 9. Calculating no. of days from the last birthday
+// 10. Check whether this year's birthday has already passed
+// 11. Check whether a date has passed Chinese New Year of the year
+// 12. Getting the Chinese New Year date of a year (range from 1876 to 2163)
 //
 // Author: P.P. Foong (https://www.linkedin.com/in/ppfoong/)
 // Repository: https://github.com/ppfoong/lib_birthday
 // License: The MIT License
-// Version 2.2 (2024-08-15)
+// Version 2.3 (2024-10-22)
 //
 // function getZodiac($month, $day, $lang)
 //		Note: Set $lang to 1 for English, 2 for Simplified Chinese, 3 for Traditional Chinese,
@@ -77,6 +78,9 @@
 // function getCNYday($year)
 //		Note: Return an array containing month and day of Chinese New Year date of the year
 //		Sample usage: print_r(getCNYday(2000));
+//
+// function getLifePathNumber($year, $month, $day)
+//
 //
 // Note: In all the above functions, the $lang or $opt argument will default to the 1st selection if not defined when the function is called.
 //
@@ -336,6 +340,12 @@ function getDays2Bday($month, $day, $opt=0) {
 		$year = ($opt==0)?$thisYear:$thisYear-1;
 	}
 	return countDays($thisYear,$thisMonth,$thisDay,$year,$month,$day);
+}
+
+function getLifePathNumber($year, $month, $day) {
+	$arr = array($year,$month,$day);
+	while (count($arr = str_split(array_sum($arr))) != 1) {}
+	return $arr[0];
 }
 
 ?>

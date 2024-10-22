@@ -59,6 +59,8 @@
 			echo "<br><br>Symbolic animal: ";
 			echo getAnimal($year,$month,$day)." ";
 			echo getAnimal($year,$month,$day,4);
+			echo "<br><br>Life path number: ";
+			echo getLifePathNumber($year,$month,$day);
 			
 			echo "<br><br>Age: ";
 			echo getAge($year,$month,$day);
